@@ -50,18 +50,13 @@ int main()
 {
   try
   {
+      using namespace math;
+
       std::cout << sizeof(float) << '\n' << sizeof(double) << '\n';
-      std::cout << sizeof(math::Probability<float>) << '\n' << sizeof(math::Probability<double>) << '\n';
+      std::cout << sizeof(Probability<float>) << '\n' << sizeof(Probability<double>) << '\n';
 
-     math::Probability<double> p{0.7};
-
-     std::array<int, 5> v{2,7,-1,5,6};
-
-     std::sort(v.begin(), v.end());
-
-
-    stuff::Foo f{};
-    int i{f.get()};
+      Probability<double> p{0.5}, q{p};
+      raw_value(p);
   }
   catch(std::exception& e)
   {
