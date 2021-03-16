@@ -22,6 +22,15 @@ namespace math
 
         Probability(const Probability&) = default;
 
+        Probability& operator=(const Probability&) = default;
+
+        Probability& operator+=(const Probability& rhs)
+        {
+            Probability q{m_Prob + rhs.m_Prob};
+            *this = q;
+            return *this;
+        }
+
         [[nodiscard]]
         T raw_value() const
         {
@@ -30,11 +39,4 @@ namespace math
     private:
         T m_Prob{};
     };
-
-      template<class T>
-      [[nodiscard]]
-      T raw_value(const Probability<T>& p)
-      {
-          return p.raw_value();
-      }
 }
