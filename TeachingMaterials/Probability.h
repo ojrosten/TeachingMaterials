@@ -13,6 +13,8 @@ namespace math
     class Probability
     {
     public:
+        constexpr Probability() = default;
+
         constexpr explicit Probability(T p)
             : m_Prob{p}
         {
@@ -36,7 +38,16 @@ namespace math
         {
             return m_Prob;
         }
+
+        friend auto operator<=>(const Probability&, const Probability&) = default;
     private:
         T m_Prob{};
     };
+
+    template<class T, class Stream>
+    Stream& operator<<(Stream& s, const Probability<T>& p)
+    {
+        s << p.raw_value();
+        return s;
+    }
 }
