@@ -20,56 +20,57 @@ private:
     const std::string& m_Separator;
 };
 
+stuff::Foo make()
+{
+    stuff::Foo f{};
+
+    return f;
+}
+
+stuff::Foo make2()
+{
+    return stuff::Foo{};
+}
+
+std::vector<int> foo()
+{
+    std::vector<int> v{};
+
+    // SOme non-trivial stuff
+
+    return v;
+}
+
+void swap(stuff::Foo& lhs, stuff::Foo& rhs)
+{
+    auto tmp{std::move(lhs)};
+    //lhs = rhs; // operator=(const&)
+    lhs = std::move(rhs); // operator=(&&)
+    rhs = std::move(tmp);
+}
+
+template<class T>
+void swap(T& lhs, T& rhs)
+{
+    auto tmp{std::move(lhs)};
+    //lhs = rhs; // operator=(const&)
+    lhs = std::move(rhs); // operator=(&&)
+    rhs = std::move(tmp);
+}
+
 int main()
 {
   try
   {
-      /*using namespace math;
+      using namespace stuff;
 
-      Probability<double> p{0.5}, q{0.7};
-      std::cout << p.raw_value() << '\n';
-      std::cout << q.raw_value() << '\n';
+      Foo f{}, g{std::move(f)};// , h{make()}, k{make2()};
+      
+      swap(f, g);
 
-      p += q;*/
+      std::vector<Foo> x, y;
 
-      std::vector<int> v{1, 2, 3, 4, 3, 6};
-      auto i{v.begin()};
-      while(i != v.end())
-      {
-          if(*i == 3)
-          {
-              i = v.erase(i);
-          }
-          else
-          {
-              ++i;
-          }
-      }
-
-      std::string separator{" "};
-
-      auto fn = [separator](int e) { 
-          e *= 2;
-          return e;
-      };
-
-      std::vector<int> w{};
-
-      std::transform(v.begin(), v.end(), std::back_inserter(w), fn);
-
-      for(auto e : v)
-          std::cout << e << ' ';
-
-      std::cout << '\n';
-
-      for(auto e : w)
-          std::cout << e << ' ';
-
-      using namespace math;
-      using Prob = Probability<double>;
-      std::array<Prob, 6> a{Prob{0.7}, Prob{0.5}, Prob{0.2}, Prob{0.1}, Prob{0.0}, Prob{0.6}};
-      auto found = std::find(a.begin(), a.end(), math::Probability<double>{0.5});
-      std::cout << '\n' << std::distance(a.begin(), found) << '\n';
+      std::swap(x, y);
   }
   catch(std::exception& e)
   {
